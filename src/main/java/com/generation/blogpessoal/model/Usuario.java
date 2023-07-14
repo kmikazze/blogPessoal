@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -21,6 +22,8 @@ import jakarta.validation.constraints.Size;
 @Table(name = "tb_usuarios")
 public class Usuario {
 
+	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -28,8 +31,9 @@ public class Usuario {
 	@NotNull(message = "O Atributo nome é obrigatório!")
 	private String nome;
 	
-	@NotNull(message = "O atributo usiário é obrigatório!")
-	@Email(message = "O atributo usuário deve ter no mínimo 8 caracteres")
+	@Schema(example = "email@email.com.br")
+	@NotNull(message = "O atributo usuário é obrigatório!")
+	@Email(message = "O atributo usuário deve ser um e-mail válido!")
 	private String usuario;
 	
 	@NotBlank(message = "O atributo senha é obrigatório!")
@@ -43,12 +47,26 @@ public class Usuario {
 	@JsonIgnoreProperties("usuario")
 	private List<Postagem> postagem;
 
+	
+	
 	public Long getId() {
 		return id;
 	}
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public Usuario(Long id, String nome,String usuario,String senha, String foto) {
+		this.id = id;
+		this.nome = nome;
+		this.usuario = usuario;
+		this.senha = senha;
+		this.foto = foto;
+	}
+	
+
+	public Usuario() {
 	}
 
 	public String getNome() {
@@ -90,6 +108,7 @@ public class Usuario {
 	public void setPostagem(List<Postagem> postagem) {
 		this.postagem = postagem;
 	}
+	
 	
 	
 }
